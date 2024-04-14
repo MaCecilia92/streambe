@@ -1,3 +1,9 @@
+import { TableComponent } from '../../commons';
+
 export const Dashboard = () => {
-  return <div>Dashboard</div>;
+  return (
+    <>
+      <TableComponent />
+    </>
+  );
 };
