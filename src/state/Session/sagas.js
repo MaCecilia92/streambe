@@ -1,4 +1,4 @@
-import { call, takeLatest, put } from 'redux-saga/effects';
+import { call, takeLatest, put, takeEvery } from 'redux-saga/effects';
 import * as actions from './reducer';
 
 function saveDataToLocalStorage(data) {
@@ -12,6 +12,9 @@ function deleteDataToLocalStorage() {
 
 function* setDatatoLocalStorage({ payload }) {
   try {
+    if (!payload || !payload.username) {
+      return;
+    }
     const response = yield call(
       fetch,
       'https://www.mockachino.com/06c67c77-18c4-45/login',
@@ -22,6 +25,7 @@ function* setDatatoLocalStorage({ payload }) {
     const data = yield response.json();
 
     if (payload.username.includes(data.username)) {
+      yield put(actions.setDataSuceeded(data));
       saveDataToLocalStorage(data.access_token);
     }
   } catch (err) {
@@ -40,6 +44,6 @@ function* removeDatatoLocalStorage() {
 }
 
 export default [
-  takeLatest(actions.setDataRequest, setDatatoLocalStorage),
   takeLatest(actions.clearData, removeDatatoLocalStorage),
+  takeEvery(actions.setDataRequest, setDatatoLocalStorage),
 ];

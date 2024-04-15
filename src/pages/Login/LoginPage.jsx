@@ -1,25 +1,26 @@
 import { FormComponent } from '../../components';
 import { getInputs } from '../../utils/index';
 import { Flex, Box, Heading } from '@chakra-ui/react';
-import useLocalStorage from '../../CustomHook/useLocalStorage';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 export const LoginPage = ({ setSessionUser, setUserParams, userParams }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [data] = useLocalStorage('session');
 
   const handleChange = (e) => {
     const { id, value } = e.target;
     setUserParams({ ...userParams, [id]: value });
   };
 
-  const handleClick = () => {
+  useEffect(() => {
     dispatch(setSessionUser(userParams));
-    if (data !== null && data !== undefined) {
-      navigate('/dashboard');
-    }
+  }, [dispatch, userParams]);
+
+  const handleClick = () => {
+    navigate('/dashboard', { replace: true });
   };
 
   const loginInputs = getInputs.loginForm();
@@ -46,4 +47,12 @@ export const LoginPage = ({ setSessionUser, setUserParams, userParams }) => {
   );
 };
 
-export default LoginPage;
+LoginPage.propTypes = {
+  setSessionUser: PropTypes.func.isRequired,
+  setUserParams: PropTypes.func.isRequired,
+  userParams: PropTypes.object.isRequired,
+};
+
+LoginPage.defaultProps = {
+  userParams: {},
+};

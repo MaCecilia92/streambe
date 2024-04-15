@@ -1,7 +1,14 @@
 import { Navigate, Outlet } from 'react-router-dom';
-import useLocalStorage from '../CustomHook/useLocalStorage';
+import PropTypes from 'prop-types';
 
-export const PrivateRoutes = () => {
-  const [data] = useLocalStorage('session');
-  return data !== null ? <Outlet /> : <Navigate to="/login" />;
+export const PrivateRoutes = ({ user }) => {
+  return user ? <Outlet /> : <Navigate to="/login" />;
+};
+
+PrivateRoutes.propTypes = {
+  user: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
+};
+
+PrivateRoutes.defaultProps = {
+  user: null,
 };

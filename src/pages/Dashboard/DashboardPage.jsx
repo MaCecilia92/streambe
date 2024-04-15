@@ -1,8 +1,20 @@
+import PropTypes from 'prop-types';
 import { TableComponent } from '../../commons';
 import { UserHeader } from '../../components';
 import { Box, Flex, Heading } from '@chakra-ui/react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
-const Dashboard = () => {
+export const DashboardPage = ({ logOut }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogOut = () => {
+    dispatch(logOut());
+    navigate('/login');
+    navigate(0);
+  };
+
   return (
     <Flex
       w="100vw"
@@ -12,7 +24,7 @@ const Dashboard = () => {
       alignItems="center"
     >
       <Box w="100%">
-        <UserHeader />
+        <UserHeader onLogOut={handleLogOut} />
       </Box>
       <Box textAlign="left" w="100%" pb={10}>
         <Heading as="h4" size="md">
@@ -26,4 +38,10 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+DashboardPage.propTypes = {
+  logOut: PropTypes.func.isRequired,
+};
+
+DashboardPage.defaultProps = {
+  logOut: () => {},
+};
