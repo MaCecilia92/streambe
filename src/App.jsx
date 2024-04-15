@@ -10,8 +10,8 @@ import { selectIsAuthenticated } from './state/Session/selectors';
 const Dashboard = lazy(() => import('./pages/Dashboard/index'));
 
 function App() {
-  const user = useSelector(selectIsAuthenticated);
-  console.log(useSelector(selectIsAuthenticated), 'user');
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+
   return (
     <VStack minH="100vh" width="100%">
       <Suspense fallback={<LoadingPage />}>
@@ -19,7 +19,9 @@ function App() {
           <Routes>
             <Route element={<LoginPage />} path="/login" />
             <Route element={<LoginPage />} path="/" />
-            <Route element={<PrivateRoutes user={user} />}>
+            <Route
+              element={<PrivateRoutes isAuthenticated={isAuthenticated} />}
+            >
               <Route element={<Dashboard />} path="/dashboard" />
             </Route>
           </Routes>

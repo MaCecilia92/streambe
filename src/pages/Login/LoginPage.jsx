@@ -41,6 +41,7 @@ export const LoginPage = ({ setSessionUser, setUserParams, userParams }) => {
           buttonText="Ingresar"
           onChange={handleChange}
           onSubmit={handleClick}
+          isDisabled={!userParams.username || !userParams.password}
         />
       </Box>
     </Flex>

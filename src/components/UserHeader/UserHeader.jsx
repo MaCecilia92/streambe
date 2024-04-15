@@ -2,11 +2,11 @@ import { Flex, Box, ButtonGroup, Button, Spacer, Text } from '@chakra-ui/react';
 import { FaRegUserCircle } from 'react-icons/fa';
 import PropTypes from 'prop-types';
 
-export const UserHeader = ({ onLogOut }) => {
+export const UserHeader = ({ onLogOut, userName }) => {
   return (
     <Flex minWidth="max-content" alignItems="center" gap="2" pb={10}>
       <Box>
-        <Text>Hola ALEJANDRO VALLEJOS</Text>
+        <Text fontSize="xl">Hola {userName.toUpperCase()}</Text>
       </Box>
       <Spacer />
       <ButtonGroup gap="2">
@@ -25,8 +25,9 @@ export const UserHeader = ({ onLogOut }) => {
 
 UserHeader.propTypes = {
   onLogOut: PropTypes.func.isRequired,
+  userName: PropTypes.string.isRequired,
 };
 
 UserHeader.defaultProps = {
-  onLogOut: () => {},
+  userName: '',
 };

@@ -10,52 +10,11 @@ import {
   VStack,
   Flex,
 } from '@chakra-ui/react';
-import { formatDate, buildRows } from '../../utils';
+import { buildRows } from '../../utils';
 import { FaRegUserCircle } from 'react-icons/fa';
+import PropTypes from 'prop-types';
 
-const columns = [
-  { key: 'name', label: 'Name' },
-  { key: 'birthDate', label: 'Birth Date' },
-  { key: 'photo', label: 'Photo' },
-];
-
-const users = [
-  {
-    contactId: 21,
-    name: 'Joan',
-    surnames: 'Serra',
-    birthDate: '1985-12-12',
-    gender: 'MALE',
-    photo: null,
-    phone: '+5411523456',
-    profesion: 'Arquitecto',
-    email: 'jserra@yopmail.com',
-  },
-  {
-    contactId: 41,
-    name: 'Carla',
-    surnames: 'López',
-    birthDate: '2020-07-07',
-    gender: 'FEMALE',
-    photo:
-      'https://www.clarin.com/img/2022/05/02/es-de-las-pocas-divas___jaXKnyR7D_340x340__1.jpg',
-    phone: '+541145678909',
-    profesion: 'Médico',
-    email: 'clopez@yopmail.com',
-  },
-];
-
-const getRows = () =>
-  users.map((user) => {
-    const rows = [
-      `${user.name} ${user.surnames}`,
-      formatDate(user.birthDate),
-      user.photo,
-    ];
-    return { key: user.id, values: rows };
-  });
-
-export const TableComponent = () => {
+export const TableComponent = ({ data, columns }) => {
   const columnsData = Array.isArray(columns) ? columns : [];
   return (
     <VStack w="100%">
@@ -72,49 +31,60 @@ export const TableComponent = () => {
               </Tr>
             </Thead>
             <Tbody>
-              {users.length > 0 &&
-                buildRows(getRows(), columnsData).map((row) => (
-                  <Tr key={row?.key} align="center">
-                    {columnsData.map((rowData) => (
-                      <Td
-                        key={`${rowData.key}`}
-                        style={{ textAlign: 'center' }}
-                      >
-                        {rowData.key === 'photo' ? (
-                          row[rowData.key] ? (
-                            <img
-                              src={row[rowData.key]}
-                              alt="User Photo"
-                              style={{
-                                borderRadius: '50%',
-                                width: '100%',
-                                maxWidth: '50px',
-                                height: 'auto',
-                              }}
-                            />
-                          ) : (
-                            <div
-                              style={{
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                height: '50px',
-                              }}
-                            >
-                              <FaRegUserCircle size={24} />
-                            </div>
-                          )
+              {buildRows(data, columnsData).map((row) => (
+                <Tr key={row?.key} align="center">
+                  {columnsData.map((rowData) => (
+                    <Td key={`${rowData.key}`} style={{ textAlign: 'center' }}>
+                      {rowData.key === 'photo' ? (
+                        row[rowData.key] ? (
+                          <img
+                            src={row[rowData.key]}
+                            alt="User Photo"
+                            style={{
+                              borderRadius: '50%',
+                              width: '100%',
+                              maxWidth: '50px',
+                              height: 'auto',
+                            }}
+                          />
                         ) : (
-                          row[rowData.key]
-                        )}
-                      </Td>
-                    ))}
-                  </Tr>
-                ))}
+                          <div
+                            style={{
+                              display: 'flex',
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                              height: '50px',
+                            }}
+                          >
+                            <FaRegUserCircle size={24} />
+                          </div>
+                        )
+                      ) : (
+                        row[rowData.key]
+                      )}
+                    </Td>
+                  ))}
+                </Tr>
+              ))}
             </Tbody>
           </Table>
         </TableContainer>
       </Flex>
     </VStack>
   );
+};
+
+TableComponent.propTypes = {
+  data: PropTypes.arrayOf(PropTypes.object).isRequired,
+  columns: PropTypes.arrayOf(
+    PropTypes.shape({
+      key: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
+};
+
+TableComponent.defaultProps = {
+  data: [],
+  columns: [],
 };
