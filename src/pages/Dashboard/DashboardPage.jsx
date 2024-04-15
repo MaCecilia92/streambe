@@ -30,7 +30,7 @@ export const DashboardPage = ({ logOut, user, getData, data }) => {
 
   const handleLogOut = () => {
     dispatch(logOut());
-    navigate('/login');
+    navigate('/');
     navigate(0);
   };
 
