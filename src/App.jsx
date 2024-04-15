@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Login, LoadingPage } from './pages/index';
+import LoginPage from './pages/Login';
+import LoadingPage from './pages/LoadingPage/LoadingPage';
 import { PrivateRoutes } from './routes';
 import { Suspense, lazy } from 'react';
 import { VStack } from '@chakra-ui/react';
@@ -12,8 +13,8 @@ function App() {
       <Suspense fallback={<LoadingPage />}>
         <Router>
           <Routes>
-            <Route element={<Login />} path="/login" />
-            <Route element={<Login />} path="/" />
+            <Route element={<LoginPage />} path="/login" />
+            <Route element={<LoginPage />} path="/" />
             <Route element={<PrivateRoutes />}>
               <Route element={<Dashboard />} path="/dashboard" />
             </Route>

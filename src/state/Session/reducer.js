@@ -5,6 +5,9 @@ const sessionSlice = createSlice({
   name: 'session',
   initialState: sessionUser,
   reducers: {
+    setUserParams: (state, { payload }) => {
+      state.userParams = payload;
+    },
     setDataRequest: (state) => {
       state.isLoading = true;
       state.isAuthenticated = false;
@@ -27,6 +30,11 @@ const sessionSlice = createSlice({
   },
 });
 
-export const { setDataRequest, clearData, setDataSuceeded, setDataError } =
-  sessionSlice.actions;
+export const {
+  setDataRequest,
+  clearData,
+  setDataSuceeded,
+  setDataError,
+  setUserParams,
+} = sessionSlice.actions;
 export default sessionSlice.reducer;

@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from 'react-router-dom';
+import useLocalStorage from '../CustomHook/useLocalStorage';
 
 export const PrivateRoutes = () => {
-  const data = false;
-
-  return data ? <Outlet /> : <Navigate to="/login" />;
+  const [data] = useLocalStorage('session');
+  return data !== null ? <Outlet /> : <Navigate to="/login" />;
 };

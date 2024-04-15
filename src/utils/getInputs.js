@@ -7,12 +7,14 @@ const getInputs = {
       key: 'username',
       type: typeInputs.TEXT,
       placeholder: 'Username',
+      defaultValue: null,
     },
     {
       id: 2,
       key: 'password',
       type: typeInputs.PASSWORD,
       placeholder: 'Password',
+      defaultValue: null,
     },
   ],
 };

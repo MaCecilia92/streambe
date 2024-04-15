@@ -4,16 +4,16 @@ import { Flex, Button } from '@chakra-ui/react';
 
 export const FormComponent = ({
   params,
-  onSubmit,
   buttonText,
-  isDisabled,
+  onSubmit,
   isLoading,
+  isDisabled,
+  onChange,
 }) => {
-  console.log(params, 'params');
   return (
     <Flex direction="column" p={10}>
       {params.map((param) => (
-        <FormInputTypes key={param.id} param={param} />
+        <FormInputTypes key={param.id} param={param} onChange={onChange} />
       ))}
       {onSubmit && (
         <Button
@@ -32,15 +32,19 @@ export const FormComponent = ({
 FormComponent.propTypes = {
   params: PropTypes.arrayOf(
     PropTypes.shape({
-      // Define las PropTypes para cada elemento en el array 'params'
-      id: PropTypes.number.isRequired, // Ejemplo: id es un número y es requerido
-      // Añade más PropTypes según las propiedades que esperas en cada 'param'
+      id: PropTypes.number.isRequired,
     }),
-  ).isRequired, // 'params' debe ser un array y es requerido
+  ).isRequired,
+  isLoading: PropTypes.bool,
+  isDisabled: PropTypes.bool,
+  buttonText: PropTypes.string,
+  onSubmit: PropTypes.func,
+  onChange: PropTypes.func,
 };
 
 FormComponent.defaultProps = {
   params: [],
   buttonText: 'button',
-  onSubmit: true, // Valor por defecto para 'params' si no se proporciona
+  onSubmit: () => {},
+  onChange: () => {},
 };

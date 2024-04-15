@@ -3,19 +3,27 @@ import { InputPassword } from '../../commons';
 import { typeInputs } from '../../constants/typeInputs';
 import PropTypes from 'prop-types';
 
-export const FormInputTypes = ({
-  param,
-  values,
-  onChange,
-  isDisabled,
-  onInputChange,
-  isLoading,
-}) => {
+export const FormInputTypes = ({ param, onChange }) => {
   switch (param.type) {
     case typeInputs.TEXT:
-      return <Input mb={5} />;
+      return (
+        <Input
+          placeholder={param.placeholder}
+          mb={5}
+          onChange={onChange}
+          id={param.key}
+          name={param.name}
+        />
+      );
     case typeInputs.PASSWORD:
-      return <InputPassword />;
+      return (
+        <InputPassword
+          placeholder={param.placeholder}
+          onChange={onChange}
+          id={param.key}
+          name={param.name}
+        />
+      );
     default:
       return <Text>Tipo de input no encontrado</Text>;
   }
@@ -26,9 +34,9 @@ FormInputTypes.propTypes = {
     type: PropTypes.shape([]),
     key: PropTypes.string,
     placeholder: PropTypes.string,
-    // Add other PropTypes for param as needed
+    name: PropTypes.string,
   }).isRequired,
-  values: PropTypes.shape({}), // Adjust this according to the shape of values
+  values: PropTypes.shape({}),
   onChange: PropTypes.func,
   isDisabled: PropTypes.bool,
   onInputChange: PropTypes.func,

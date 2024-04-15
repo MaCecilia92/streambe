@@ -12,9 +12,18 @@ function deleteDataToLocalStorage() {
 
 function* setDatatoLocalStorage({ payload }) {
   try {
-    yield call(saveDataToLocalStorage, payload);
-    console.log(payload, 'payload');
-    yield put(actions.setDataSuceeded(payload));
+    const response = yield call(
+      fetch,
+      'https://www.mockachino.com/06c67c77-18c4-45/login',
+      {
+        method: 'GET',
+      },
+    );
+    const data = yield response.json();
+
+    if (payload.username.includes(data.username)) {
+      saveDataToLocalStorage(data.access_token);
+    }
   } catch (err) {
     yield put(actions.setDataError(err));
     console.error('Error saving data:', err);

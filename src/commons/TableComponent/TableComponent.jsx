@@ -7,6 +7,8 @@ import {
   Td,
   TableContainer,
   Text,
+  VStack,
+  Flex,
 } from '@chakra-ui/react';
 import { formatDate, buildRows } from '../../utils';
 import { FaRegUserCircle } from 'react-icons/fa';
@@ -56,47 +58,63 @@ const getRows = () =>
 export const TableComponent = () => {
   const columnsData = Array.isArray(columns) ? columns : [];
   return (
-    <TableContainer>
-      <Table variant="simple">
-        <Thead>
-          <Tr>
-            {columnsData.map((column) => (
-              <Th key={column.key}>
-                <Text textAlign="center">{column.label}</Text>
-              </Th>
-            ))}
-          </Tr>
-        </Thead>
-        <Tbody>
-          {users.length > 0 &&
-            buildRows(getRows(), columnsData).map((row) => (
-              <Tr key={row?.key} align="center">
-                {columnsData.map((rowData) => (
-                  <Td key={`${rowData.key}`} style={{ textAlign: 'center' }}>
-                    {rowData.key === 'photo' ? (
-                      row[rowData.key] ? (
-                        <img src={row[rowData.key]} alt="User Photo" />
-                      ) : (
-                        <div
-                          style={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            height: '100%',
-                          }}
-                        >
-                          <FaRegUserCircle size={24} />
-                        </div>
-                      )
-                    ) : (
-                      row[rowData.key]
-                    )}
-                  </Td>
+    <VStack w="100%">
+      <Flex w="100%" overflowX="auto" overflowY="hidden">
+        <TableContainer borderWidth="1px" borderColor="gray.200">
+          <Table variant="striped">
+            <Thead>
+              <Tr>
+                {columnsData.map((column) => (
+                  <Th key={column.key}>
+                    <Text textAlign="center">{column.label}</Text>
+                  </Th>
                 ))}
               </Tr>
-            ))}
-        </Tbody>
-      </Table>
-    </TableContainer>
+            </Thead>
+            <Tbody>
+              {users.length > 0 &&
+                buildRows(getRows(), columnsData).map((row) => (
+                  <Tr key={row?.key} align="center">
+                    {columnsData.map((rowData) => (
+                      <Td
+                        key={`${rowData.key}`}
+                        style={{ textAlign: 'center' }}
+                      >
+                        {rowData.key === 'photo' ? (
+                          row[rowData.key] ? (
+                            <img
+                              src={row[rowData.key]}
+                              alt="User Photo"
+                              style={{
+                                borderRadius: '50%',
+                                width: '100%',
+                                maxWidth: '50px',
+                                height: 'auto',
+                              }}
+                            />
+                          ) : (
+                            <div
+                              style={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                height: '50px',
+                              }}
+                            >
+                              <FaRegUserCircle size={24} />
+                            </div>
+                          )
+                        ) : (
+                          row[rowData.key]
+                        )}
+                      </Td>
+                    ))}
+                  </Tr>
+                ))}
+            </Tbody>
+          </Table>
+        </TableContainer>
+      </Flex>
+    </VStack>
   );
 };
